@@ -5,7 +5,7 @@
 class Stack:
     def __init__(self, size=99999):
         self.stack = []
-        self.size = size
+        self.maxSize = size
         self.top = -1
 
     def isEmpty(self):
@@ -26,7 +26,7 @@ class Stack:
             return self.stack.pop()
 
     def full(self):
-        return self.size == self.top
+        return self.maxSize == self.top
 
     def size(self):
         return len(self.stack)
