@@ -47,5 +47,89 @@ class BinaryTree:
 		"""
 		删除节点
 		"""
-		node, parent = self.transverse(data)
+		node, parent = self.tranverse(data)
+		if node is not None:
+			childCnt = node.childrenCount()
+			if 0 == childCnt:
+				#没有子节点直接删除
+				if parent.left is node:
+					parent.left = None
+				else:
+					parent.right = None
+				del node
+			elif 1 == childCnt:
+				#
+				if node.left is None:
+					n = node.right
+				else:
+					n = node.left
+				if parent.left is node:
+					parent.left = n
+				else:
+					parent.right = n
+					
+				del node
+			else:
+				parent = node
+				successor = node.right
+				while successor.left:
+					parent = successor
+					successor = parent.left
+				node.data = successor.data
+				if parent.left is successor:
+					parent.left = successor.right
+				else:
+					parent.right = successor.right
+	
+	def compare_trees(self, node):
+		"""
+		比较两颗树
+		"""        
+		if node is None:
+			return False
+		if self.data != node.data:
+			return False
+		res = True
+		if self.left is None:
+			if node.left:
+				return False
+		else:
+			res = self.left.compare_trees(node.left)
+		if res is False:
+			return False
+		if self.right is None:
+			if node.right:
+				return False
+		else:
+			res = self.right.compare_trees(node.right)
+		return res
+	
+	def printTree(self):
+		"""
+		打印树
+		"""
+		if self.left:
+			self.left.printTree()
+		print(self.data)
+		if self.right:
+			self.right.printTree()
 		
+	def childrenCount(self):
+		cnt = 0
+		if self.left:
+			cnt += 1
+		if self.right:
+			cnt += 1
+		return cnt
+	
+	
+bt = BinaryTree(30)
+bt.insert(100)
+bt.insert(200)
+bt.insert(20)
+bt.insert(60)
+bt.insert(110)
+bt.insert(90)
+bt.printTree()
+bt.delete(110)
+bt.printTree()
